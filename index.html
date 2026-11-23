@@ -1,1 +1,131 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Citrus Café</title>
+<meta name="description" content="Specialty coffee · botanical lounge in Yerevan">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=Noto+Sans+Armenian:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="topbar" data-i18n="topbar">Yerevan · Prices in AMD</div>
 
+<header class="nav">
+  <a class="brand" href="#home"><img src="assets/images/logo.png" alt="" onerror="this.remove()"><span>The Citrus Café</span></a>
+  <nav>
+    <a href="#home" data-i18n="nav_home">Home</a>
+    <a href="#signatures" data-i18n="nav_menu">Menu</a>
+    <a href="#about" data-i18n="nav_about">About Us</a>
+    <a href="#visit" data-i18n="nav_location">Location</a>
+    <a href="#news" data-i18n="nav_events">Events</a>
+    <a href="#footer" data-i18n="nav_contact">Contact</a>
+  </nav>
+  <div class="lang" role="group" aria-label="Language">
+    <button data-lang="hy">HY</button><button data-lang="ru">RU</button><button data-lang="en">EN</button>
+  </div>
+  <a class="btn" href="#signatures" data-i18n="order">Order online</a>
+</header>
+
+<section class="hero" id="home">
+  <video autoplay muted loop playsinline poster="assets/images/hero.jpg">
+    <source src="assets/video/hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero-shade"></div>
+  <div class="hero-text">
+    <p class="eyebrow" data-i18n="hero_eyebrow">Specialty coffee · Botanical lounge</p>
+    <h1 data-i18n="hero_title">Crafted in a citrus garden</h1>
+    <p class="lead" data-i18n="hero_sub">Freshly roasted coffee, citrus drinks and handmade desserts under greenhouse light.</p>
+    <div class="row">
+      <a class="btn" href="#signatures" data-i18n="explore">Explore menu</a>
+      <a class="btn ghost" href="#about" data-i18n="watch">▶ Watch the café</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="signatures">
+  <div class="head">
+    <div><p class="eyebrow" data-i18n="sig_eyebrow">Special menu</p><h2 data-i18n="sig_title">Our signatures</h2></div>
+    <a class="link" href="#signatures" data-i18n="full_menu">View full menu</a>
+  </div>
+  <div class="sig" id="sigGrid"></div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <svg viewBox="0 0 1440 160" preserveAspectRatio="none">
+    <defs><path id="wave" d="M-200,60 C100,140 400,0 720,70 C1040,140 1340,10 1640,80"/></defs>
+    <text><textPath id="wavePath" href="#wave"></textPath></text>
+  </svg>
+</div>
+
+<section class="about" id="about">
+  <img src="assets/images/interior.jpg" alt="Citrus greenhouse interior">
+  <div class="about-text">
+    <p class="eyebrow" data-i18n="about_eyebrow">About us · Location</p>
+    <h2 data-i18n="about_title">A citrus greenhouse in the heart of Yerevan</h2>
+    <p data-i18n="about_text">Armenia's first concept café and plant shop. Sip a signature drink among lemon and orange trees, then take a little piece of the garden home with Botanica.</p>
+    <a class="btn" href="#visit" data-i18n="find_us">Find us</a>
+  </div>
+</section>
+
+<section class="wrap strip">
+  <div><b data-i18n="f1">Premium Beans</b><small data-i18n="f1s">Sourced globally</small></div>
+  <div><b data-i18n="f2">Expert Baristas</b><small data-i18n="f2s">Crafted with care</small></div>
+  <div><b data-i18n="f3">Fresh Ingredients</b><small data-i18n="f3s">Quality in every bite</small></div>
+  <div><b data-i18n="f4">A Space to Relax</b><small data-i18n="f4s">And connect</small></div>
+</section>
+
+<section class="wrap two">
+  <div>
+    <p class="eyebrow" data-i18n="best_eyebrow">Guest favourites</p>
+    <h2 data-i18n="best_title">Our best sellers</h2>
+    <div class="best" id="bestGrid"></div>
+  </div>
+  <div>
+    <p class="eyebrow" data-i18n="rev_eyebrow">Guest reviews</p>
+    <h2 data-i18n="rev_title">What our guests say</h2>
+    <div class="slider">
+      <button class="arrow" id="prev" aria-label="Previous">‹</button>
+      <div class="track" id="reviewTrack"></div>
+      <button class="arrow" id="next" aria-label="Next">›</button>
+    </div>
+    <div class="dots" id="dots"></div>
+  </div>
+</section>
+
+<section class="wrap visit" id="visit">
+  <div class="card">
+    <p class="eyebrow" data-i18n="visit_eyebrow">Visit us</p>
+    <h2 data-i18n="visit_title">Find The Citrus Café</h2>
+    <p>Yerevan, Armenia<br>Open daily 09:00 – 23:00</p>
+    <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Yerevan+Armenia" data-i18n="directions">Get directions</a>
+  </div>
+  <div class="map">
+    <!-- Replace the src with your real Google Maps "Share → Embed a map" link -->
+    <iframe title="Map" loading="lazy" src="https://www.google.com/maps?q=Yerevan+Armenia&output=embed"></iframe>
+  </div>
+</section>
+
+<section class="wrap" id="news">
+  <form class="card news" onsubmit="return false">
+    <div><h2 data-i18n="news_title">Be the first to know</h2><p data-i18n="news_text">New seasonal menus, events and plant-care meetups. Leave your email and we will keep you posted.</p></div>
+    <input type="email" required placeholder="Email" data-i18n-ph="email">
+    <button class="btn" data-i18n="subscribe">Subscribe</button>
+  </form>
+</section>
+
+<div class="band"></div>
+<footer id="footer">
+  <a class="brand" href="#home"><img src="assets/images/logo.png" alt="" onerror="this.remove()"><span>The Citrus Café</span></a>
+  <form onsubmit="return false"><b data-i18n="loop">Stay in the loop</b><div><input type="email" required placeholder="Email" data-i18n-ph="email"><button class="btn" data-i18n="subscribe">Subscribe</button></div></form>
+  <div class="links"><a href="#about" data-i18n="nav_about">About Us</a><a href="#footer" data-i18n="contacts">Contacts</a><a href="#" data-i18n="privacy">Privacy Policy</a><a href="#" data-i18n="terms">Terms</a></div>
+  <p class="copy" data-i18n="copy">© The Citrus Café · Prices in AMD · Ask staff about allergens</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
