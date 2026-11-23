@@ -4,29 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Citrus Café — Specialty Coffee & Botanical Lounge | Yerevan</title>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Sans+Armenian:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Noto+Sans+Armenian:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+
   <style>
     :root {
-      --bg-dark: #0f1f18;
-      --bg-darker: #09130f;
-      --bg-card: #162b22;
-      --bg-cream: #f7f3eb;
-      --bg-cream-alt: #efe8da;
-      --text-light: #f6f2e9;
-      --text-muted-light: #b9c4be;
-      --text-dark: #15261e;
-      --text-muted-dark: #54665d;
-      --gold: #e6a844;
-      --gold-hover: #f2b755;
-      --accent-green: #244737;
-      --border-light: rgba(246, 242, 233, 0.14);
-      --border-dark: rgba(21, 38, 30, 0.12);
+      /* Luxury Emerald, Sage, Ivory & Antique Gold Palette */
+      --forest-deep: #091813;
+      --emerald-dark: #0f3d34;
+      --emerald-mid: #185844;
+      --emerald-glow: #1f6b53;
+      --sage: #78947f;
+      --ivory: #f2ebdd;
+      --cream-soft: #f7f6f1;
+      --gold-antique: #b08a4f;
+      --gold-warm: #c8a96a;
+      --gold-bright: #e2be79;
+      --text-on-dark: #f2ebdd;
+      --text-muted-dark: #b7c7be;
+      --text-on-light: #102f27;
+      --text-muted-light: #4e635a;
+      --glass-border: rgba(242, 235, 221, 0.16);
+      --light-border: rgba(16, 47, 39, 0.12);
+      --radius-xl: 28px;
       --radius-lg: 20px;
       --radius-md: 14px;
       --radius-pill: 999px;
-      --shadow-soft: 0 18px 40px rgba(9, 19, 15, 0.18);
+      --shadow-luxury: 0 24px 60px rgba(9, 24, 19, 0.28);
     }
 
     * {
@@ -41,15 +52,15 @@
 
     body {
       font-family: 'Plus Jakarta Sans', 'Noto Sans Armenian', sans-serif;
-      background-color: var(--bg-cream);
-      color: var(--text-dark);
-      line-height: 1.6;
+      background-color: var(--cream-soft);
+      color: var(--text-on-light);
+      line-height: 1.65;
       overflow-x: hidden;
     }
 
     h1, h2, h3, .serif {
       font-family: 'Cormorant Garamond', 'Noto Sans Armenian', serif;
-      line-height: 1.12;
+      line-height: 1.18;
     }
 
     a {
@@ -57,23 +68,55 @@
       text-decoration: none;
     }
 
-    img {
-      max-width: 100%;
+    img, video {
       display: block;
+      max-width: 100%;
     }
 
     .container {
-      width: min(1220px, 92%);
+      width: min(1260px, 92%);
       margin: 0 auto;
     }
 
-    /* Top Info Bar */
+    /* Opening Curtain */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 40%, var(--emerald-mid), var(--forest-deep) 75%);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: var(--ivory);
+    }
+
+    .preloader-emblem {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--gold-warm);
+      box-shadow: 0 0 35px rgba(200, 169, 106, 0.35);
+      background: var(--emerald-dark);
+      display: grid;
+      place-items: center;
+    }
+
+    .preloader-emblem img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Top Bar */
     .top-bar {
-      background: var(--bg-darker);
-      color: var(--text-muted-light);
+      background: var(--forest-deep);
+      color: var(--text-muted-dark);
       font-size: 0.78rem;
       padding: 8px 0;
-      border-bottom: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--glass-border);
     }
 
     .top-bar .container {
@@ -81,91 +124,117 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .top-bar-items {
+    .top-bar-group {
       display: flex;
-      gap: 18px;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
-    /* Header & Nav */
+    /* Header */
     header {
-      background: rgba(15, 31, 24, 0.96);
-      backdrop-filter: blur(10px);
-      color: var(--text-light);
       position: sticky;
       top: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--border-light);
+      z-index: 200;
+      background: rgba(9, 24, 19, 0.84);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--glass-border);
+      color: var(--ivory);
+      transition: background 0.3s ease;
     }
 
-    .nav-wrap {
+    .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 0;
-      gap: 16px;
+      padding: 12px 0;
+      gap: 18px;
     }
 
-    .brand {
-      display: flex;
+    /* Logo ONLY (no duplicate side text) */
+    .logo-link {
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 700;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1.5px solid var(--gold-warm);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+      background: var(--emerald-dark);
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .brand-badge {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #244a39, #0e2118);
-      border: 2px solid var(--gold);
-      display: grid;
-      place-items: center;
+    .logo-link:hover {
+      transform: scale(1.06) rotate(3deg);
+      box-shadow: 0 8px 28px rgba(200, 169, 106, 0.4);
+    }
+
+    .logo-link img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-fallback {
+      display: none;
       font-family: 'Cormorant Garamond', serif;
       font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      color: var(--gold);
-      text-align: center;
-      line-height: 1;
       font-weight: 700;
-    }
-
-    .brand-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.45rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
+      color: var(--gold-bright);
+      letter-spacing: 0.08em;
+      text-align: center;
+      line-height: 1.05;
     }
 
     nav ul {
       display: flex;
       list-style: none;
-      gap: 24px;
-      font-size: 0.9rem;
+      gap: 26px;
+      font-size: 0.88rem;
       font-weight: 500;
     }
 
     nav a {
-      color: var(--text-muted-light);
-      transition: color 0.2s;
+      color: var(--text-muted-dark);
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.25s;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--gold-warm);
+      transition: width 0.28s ease;
     }
 
     nav a:hover, nav a.active {
-      color: var(--gold);
+      color: var(--ivory);
     }
 
-    .nav-actions {
+    nav a:hover::after, nav a.active::after {
+      width: 100%;
+    }
+
+    .header-controls {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
-    .lang-switch {
+    .lang-box {
       display: flex;
       background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--glass-border);
       border-radius: var(--radius-pill);
       padding: 3px;
     }
@@ -173,9 +242,9 @@
     .lang-btn {
       background: transparent;
       border: none;
-      color: var(--text-muted-light);
-      font-size: 0.75rem;
-      font-weight: 600;
+      color: var(--text-muted-dark);
+      font-size: 0.74rem;
+      font-weight: 700;
       padding: 4px 9px;
       border-radius: var(--radius-pill);
       cursor: pointer;
@@ -183,8 +252,8 @@
     }
 
     .lang-btn.active {
-      background: var(--gold);
-      color: var(--bg-darker);
+      background: var(--gold-warm);
+      color: var(--forest-deep);
     }
 
     .btn {
@@ -194,466 +263,587 @@
       gap: 8px;
       padding: 11px 22px;
       border-radius: var(--radius-pill);
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       font-weight: 600;
       cursor: pointer;
       border: none;
-      transition: all 0.22s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
     }
 
     .btn-gold {
-      background: linear-gradient(135deg, #f0b654, #d9942b);
-      color: #141c17;
-      box-shadow: 0 8px 20px rgba(230, 168, 68, 0.28);
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold-antique));
+      color: #0b1914;
+      box-shadow: 0 10px 24px rgba(176, 138, 79, 0.32);
     }
 
     .btn-gold:hover {
-      transform: translateY(-1px);
-      background: linear-gradient(135deg, #f6c268, #e39e35);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(226, 190, 121, 0.42);
     }
 
-    .btn-outline-light {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-light);
-      border: 1px solid rgba(246, 242, 233, 0.28);
+    .btn-glass {
+      background: rgba(242, 235, 221, 0.08);
+      color: var(--ivory);
+      border: 1px solid rgba(242, 235, 221, 0.3);
+      backdrop-filter: blur(8px);
     }
 
-    .btn-outline-light:hover {
-      background: rgba(255, 255, 255, 0.14);
-      border-color: var(--gold);
+    .btn-glass:hover {
+      background: rgba(242, 235, 221, 0.16);
+      border-color: var(--gold-warm);
+      transform: translateY(-2px);
     }
 
-    .btn-dark {
-      background: var(--bg-dark);
-      color: var(--text-light);
-    }
-
-    .btn-dark:hover {
-      background: var(--accent-green);
-    }
-
-    .mobile-toggle {
+    .mobile-btn {
       display: none;
-      background: none;
-      border: 1px solid var(--border-light);
-      color: var(--text-light);
-      padding: 6px 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--glass-border);
+      color: var(--ivory);
+      padding: 6px 11px;
       border-radius: 8px;
       font-size: 1.1rem;
       cursor: pointer;
     }
 
-    /* Hero Section */
+    /* Full-Size Hero with Video + Emerald Gradient Side */
     .hero {
-      background: radial-gradient(circle at 80% 20%, #1d3c2e 0%, var(--bg-dark) 62%);
-      color: var(--text-light);
-      padding: 64px 0 56px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 44px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      font-size: 0.74rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 14px;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.8rem, 5.2vw, 4.5rem);
-      font-weight: 600;
-      margin-bottom: 18px;
-    }
-
-    .hero p {
-      color: var(--text-muted-light);
-      font-size: 1.05rem;
-      max-width: 490px;
-      margin-bottom: 28px;
-    }
-
-    .hero-cta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .hero-media {
       position: relative;
-      border-radius: var(--radius-lg);
+      min-height: min(92vh, 820px);
+      display: flex;
+      align-items: center;
       overflow: hidden;
-      aspect-ratio: 16 / 10;
-      border: 1px solid rgba(230, 168, 68, 0.35);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
-      background: #13281f;
+      background: var(--forest-deep);
+      color: var(--ivory);
     }
 
-    .hero-media img {
+    .hero-video-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero-video-bg video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 6s ease;
+      filter: saturate(1.12) contrast(1.04);
     }
 
-    .hero-media:hover img {
-      transform: scale(1.05);
-    }
-
-    .hero-media-badge {
+    /* Left side transitions smoothly into deep emerald botanical tone */
+    .hero-scrim {
       position: absolute;
-      bottom: 16px;
-      left: 16px;
-      background: rgba(15, 31, 24, 0.85);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(230, 168, 68, 0.4);
-      padding: 8px 14px;
-      border-radius: var(--radius-pill);
-      font-size: 0.78rem;
-      color: var(--text-light);
-      display: flex;
+      inset: 0;
+      z-index: 2;
+      background:
+        linear-gradient(
+          95deg,
+          rgba(9, 24, 19, 0.96) 0%,
+          rgba(15, 61, 52, 0.88) 44%,
+          rgba(15, 61, 52, 0.34) 76%,
+          rgba(9, 24, 19, 0.45) 100%
+        ),
+        linear-gradient(to top, rgba(9, 24, 19, 0.85) 0%, transparent 35%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      padding: 72px 0;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: end;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
       align-items: center;
       gap: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-bright);
+      background: rgba(24, 88, 68, 0.55);
+      border: 1px solid rgba(200, 169, 106, 0.35);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 18px;
     }
 
-    .pulse-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 0 4px rgba(230, 168, 68, 0.25);
+    .hero h1 {
+      font-size: clamp(3rem, 5.8vw, 4.9rem);
+      font-weight: 600;
+      color: var(--ivory);
+      margin-bottom: 18px;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     }
 
-    /* Special Menu Bar */
-    .special-menu-strip {
-      background: var(--bg-darker);
-      color: var(--text-light);
-      padding: 34px 0 42px;
-      border-top: 1px solid var(--border-light);
+    .hero-lead {
+      font-size: 1.06rem;
+      color: var(--ivory);
+      max-width: 520px;
+      margin-bottom: 28px;
+      opacity: 0.94;
     }
 
-    .strip-header {
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    /* Animated Live Banner Strip inside Hero */
+    .hero-live-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(9, 24, 19, 0.78);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(200, 169, 106, 0.38);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      max-width: 520px;
+    }
+
+    .live-badge {
+      background: var(--gold-warm);
+      color: var(--forest-deep);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      flex-shrink: 0;
+    }
+
+    .hero-banner-text {
+      font-size: 0.84rem;
+      color: var(--ivory);
+    }
+
+    /* Floating Botanical Glass Card on Right of Hero */
+    .hero-glass-panel {
+      justify-self: end;
+      background: rgba(15, 61, 52, 0.52);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(242, 235, 221, 0.24);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      max-width: 360px;
+      width: 100%;
+      box-shadow: var(--shadow-luxury);
+    }
+
+    .panel-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-size: 0.78rem;
+      color: var(--gold-bright);
+      font-weight: 600;
+    }
+
+    .sound-btn {
+      background: rgba(242, 235, 221, 0.12);
+      border: 1px solid rgba(242, 235, 221, 0.25);
+      color: var(--ivory);
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .sound-btn:hover {
+      background: var(--gold-warm);
+      color: var(--forest-deep);
+    }
+
+    /* Signatures Section */
+    .signatures-band {
+      background: linear-gradient(180deg, var(--forest-deep) 0%, var(--emerald-dark) 100%);
+      color: var(--ivory);
+      padding: 64px 0 54px;
+    }
+
+    .band-head {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-bottom: 22px;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 14px;
+      margin-bottom: 30px;
     }
 
-    .strip-header h2 {
-      font-size: 2rem;
+    .eyebrow {
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-warm);
+      margin-bottom: 8px;
     }
 
-    .view-link {
-      color: var(--gold);
-      font-size: 0.9rem;
+    .band-head h2 {
+      font-size: clamp(2.1rem, 3.8vw, 3rem);
+    }
+
+    .gold-link {
+      color: var(--gold-bright);
       font-weight: 600;
+      font-size: 0.9rem;
     }
 
-    .signatures-grid {
+    .sig-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      gap: 18px;
     }
 
-    .sig-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-md);
-      padding: 18px 20px;
+    .sig-tile {
+      background: rgba(242, 235, 221, 0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
-      align-items: center;
-      transition: 0.22s;
+      gap: 16px;
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
     }
 
-    .sig-card:hover {
-      border-color: var(--gold);
-      transform: translateY(-2px);
+    .sig-tile:hover {
+      transform: translateY(-6px);
+      border-color: var(--gold-warm);
+      background: rgba(24, 88, 68, 0.45);
     }
 
-    .sig-name {
+    .sig-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
+      font-size: 1.5rem;
       font-weight: 600;
+      margin-bottom: 4px;
     }
 
-    .sig-sub {
-      font-size: 0.78rem;
-      color: var(--text-muted-light);
+    .sig-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted-dark);
     }
 
-    .sig-price {
-      text-align: right;
+    .sig-price-tag {
       font-weight: 700;
-      color: var(--gold);
+      color: var(--gold-bright);
       font-size: 1.05rem;
     }
 
-    .sig-price span {
-      display: block;
-      font-size: 0.72rem;
-      color: var(--text-muted-light);
-      font-weight: 400;
+    /* Wavy Marquee (NOT a straight line) */
+    .wave-marquee-wrap {
+      background: var(--emerald-dark);
+      padding: 10px 0 26px;
+      overflow: hidden;
     }
 
-    /* Marquee Ticker */
-    .ticker {
-      background: var(--gold);
-      color: var(--bg-darker);
-      padding: 11px 0;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+    .wave-marquee-inner {
+      position: relative;
+      height: 76px;
+      display: flex;
+      align-items: center;
+    }
+
+    .wave-svg-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .wave-track-box {
+      position: relative;
+      z-index: 2;
+      width: 100%;
       overflow: hidden;
       white-space: nowrap;
     }
 
-    .ticker-track {
+    .wave-track {
       display: inline-block;
-      animation: marquee 28s linear infinite;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-bright);
+      animation: waveScroll 24s linear infinite;
     }
 
-    @keyframes marquee {
+    @keyframes waveScroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
 
-    /* About Section */
+    /* About Us + Interior Motion Reveal */
     .section {
-      padding: 84px 0;
+      padding: 92px 0;
     }
 
-    .about-grid {
+    .about-split {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 54px;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 56px;
       align-items: center;
     }
 
-    .about-image-wrap {
+    .interior-stage {
       position: relative;
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-xl);
       overflow: hidden;
-      box-shadow: var(--shadow-soft);
+      box-shadow: var(--shadow-luxury);
+      border: 1px solid var(--light-border);
+      background: var(--emerald-dark);
     }
 
-    .about-image-wrap img {
+    .interior-photo {
       width: 100%;
-      height: 460px;
+      height: 500px;
       object-fit: cover;
+      transform: scale(1.06);
     }
 
-    .about-content h2 {
-      font-size: clamp(2.2rem, 3.8vw, 3.1rem);
+    /* Animated Interior Pop-in Card */
+    .interior-popup {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      right: 22px;
+      background: rgba(9, 24, 19, 0.88);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(226, 190, 121, 0.45);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      color: var(--ivory);
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
+    }
+
+    .interior-popup-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-bright);
+      margin-bottom: 4px;
+    }
+
+    .interior-popup p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--ivory);
+    }
+
+    .about-copy h2 {
+      font-size: clamp(2.3rem, 4vw, 3.3rem);
       margin-bottom: 18px;
+      color: var(--text-on-light);
     }
 
-    .about-content p {
-      color: var(--text-muted-dark);
+    .about-copy p {
+      color: var(--text-muted-light);
       margin-bottom: 24px;
       font-size: 1rem;
     }
 
-    .pillars-grid {
+    .feature-pills {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
-      margin: 28px 0;
+      margin-bottom: 28px;
     }
 
-    .pillar {
+    .feature-pill {
       background: #ffffff;
-      border: 1px solid var(--border-dark);
+      border: 1px solid var(--light-border);
       border-radius: var(--radius-md);
       padding: 16px;
+      box-shadow: 0 8px 22px rgba(16, 47, 39, 0.04);
     }
 
-    .pillar h4 {
-      font-size: 0.92rem;
+    .feature-pill strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-on-light);
       margin-bottom: 4px;
-      color: var(--text-dark);
     }
 
-    .pillar p {
+    .feature-pill span {
       font-size: 0.8rem;
-      margin: 0;
-      color: var(--text-muted-dark);
+      color: var(--text-muted-light);
     }
 
-    /* Guest Favourites / Menu Section */
-    .favourites-section {
-      background: var(--bg-cream-alt);
+    /* Menu / Guest Favourites */
+    .menu-band {
+      background: var(--ivory);
     }
 
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 36px;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .section-head h2 {
-      font-size: clamp(2.1rem, 3.5vw, 3rem);
-    }
-
-    .filter-tabs {
+    .filter-bar {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
 
-    .filter-tab {
+    .filter-chip {
       padding: 8px 16px;
       border-radius: var(--radius-pill);
-      border: 1px solid var(--border-dark);
-      background: #fff;
-      font-size: 0.84rem;
+      border: 1px solid var(--light-border);
+      background: #ffffff;
+      color: var(--text-on-light);
+      font-size: 0.83rem;
       font-weight: 600;
       cursor: pointer;
       transition: 0.2s;
     }
 
-    .filter-tab.active, .filter-tab:hover {
-      background: var(--bg-dark);
-      color: var(--text-light);
-      border-color: var(--bg-dark);
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--emerald-dark);
+      color: var(--ivory);
+      border-color: var(--emerald-dark);
     }
 
-    .cards-grid {
+    .menu-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 22px;
     }
 
-    .food-card {
+    .dish-card {
       background: #ffffff;
       border-radius: var(--radius-lg);
       overflow: hidden;
-      border: 1px solid var(--border-dark);
-      box-shadow: 0 10px 25px rgba(21, 38, 30, 0.05);
+      border: 1px solid var(--light-border);
+      box-shadow: 0 12px 28px rgba(16, 47, 39, 0.06);
       display: flex;
       flex-direction: column;
-      transition: transform 0.25s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .food-card:hover {
-      transform: translateY(-4px);
+    .dish-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 38px rgba(16, 47, 39, 0.12);
     }
 
-    .food-card img {
+    .dish-card img {
       width: 100%;
       height: 220px;
       object-fit: cover;
     }
 
-    .food-body {
+    .dish-body {
       padding: 18px;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
     }
 
-    .food-tag {
-      font-size: 0.72rem;
+    .dish-cat {
+      font-size: 0.7rem;
       font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #b87918;
+      color: var(--gold-antique);
       margin-bottom: 4px;
     }
 
-    .food-title {
+    .dish-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.45rem;
+      font-size: 1.48rem;
       font-weight: 700;
       margin-bottom: 6px;
     }
 
-    .food-desc {
-      font-size: 0.85rem;
-      color: var(--text-muted-dark);
-      margin-bottom: 16px;
+    .dish-copy {
+      font-size: 0.84rem;
+      color: var(--text-muted-light);
       flex-grow: 1;
+      margin-bottom: 16px;
     }
 
-    .food-footer {
+    .dish-bottom {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-top: 12px;
-      border-top: 1px solid var(--border-dark);
+      border-top: 1px solid var(--light-border);
     }
 
-    .food-price {
+    .dish-price {
       font-weight: 700;
-      font-size: 1rem;
+      color: var(--text-on-light);
     }
 
-    .add-btn {
-      background: var(--bg-dark);
-      color: var(--text-light);
+    .add-pill {
+      background: var(--emerald-dark);
+      color: var(--ivory);
       border: none;
       padding: 7px 14px;
       border-radius: var(--radius-pill);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
       transition: 0.2s;
     }
 
-    .add-btn:hover {
-      background: var(--gold);
-      color: var(--bg-darker);
+    .add-pill:hover {
+      background: var(--gold-warm);
+      color: var(--forest-deep);
     }
 
-    /* Visit & Reviews Grid */
-    .visit-reviews-grid {
+    /* Location & Reviews */
+    .split-info {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 32px;
-      align-items: stretch;
     }
 
-    .visit-card, .reviews-card {
-      background: #ffffff;
-      border-radius: var(--radius-lg);
+    .card-light, .card-emerald {
+      border-radius: var(--radius-xl);
       padding: 34px;
-      border: 1px solid var(--border-dark);
-      box-shadow: 0 12px 30px rgba(21, 38, 30, 0.05);
+      border: 1px solid var(--light-border);
     }
 
-    .visit-card h2, .reviews-card h2 {
-      font-size: 2.3rem;
-      margin-bottom: 14px;
+    .card-light {
+      background: #ffffff;
+      box-shadow: 0 14px 34px rgba(16, 47, 39, 0.05);
     }
 
-    .info-list {
+    .card-emerald {
+      background: linear-gradient(155deg, var(--emerald-dark), var(--forest-deep));
+      color: var(--ivory);
+      border-color: var(--glass-border);
+    }
+
+    .meta-rows {
       list-style: none;
       margin: 18px 0 22px;
       display: grid;
       gap: 10px;
-      font-size: 0.95rem;
+      font-size: 0.94rem;
     }
 
-    .info-list li strong {
-      color: var(--text-dark);
+    .meta-rows strong {
+      min-width: 96px;
       display: inline-block;
-      min-width: 110px;
     }
 
-    .map-frame {
+    .map-box {
       width: 100%;
       height: 220px;
       border: 0;
@@ -661,134 +851,153 @@
       margin-top: 18px;
     }
 
-    .reviews-card {
-      background: var(--bg-dark);
-      color: var(--text-light);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .review-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-light);
+    .quote-card {
+      background: rgba(242, 235, 221, 0.06);
+      border: 1px solid var(--glass-border);
       border-radius: var(--radius-md);
-      padding: 22px;
+      padding: 20px;
       margin-top: 16px;
     }
 
     .stars {
-      color: var(--gold);
-      letter-spacing: 3px;
-      font-size: 1rem;
-      margin-bottom: 10px;
+      color: var(--gold-bright);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
     }
 
-    .review-quote {
+    .quote-text {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
+      font-size: 1.32rem;
       font-style: italic;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
-    .review-author {
-      font-size: 0.82rem;
-      color: var(--text-muted-light);
+    .quote-by {
+      font-size: 0.8rem;
+      color: var(--sage);
       font-weight: 600;
     }
 
-    /* Newsletter Banner + Footer */
-    .newsletter-banner {
-      position: relative;
-      background: linear-gradient(to bottom, rgba(15, 31, 24, 0.72), var(--bg-darker)),
-                  url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-      color: var(--text-light);
-      padding: 76px 0 48px;
+    /* Compact, Balanced Luxury Footer */
+    .site-footer {
+      background: linear-gradient(180deg, var(--emerald-dark) 0%, var(--forest-deep) 100%);
+      color: var(--ivory);
+      padding: 58px 0 28px;
+      border-top: 1px solid var(--glass-border);
     }
 
-    .newsletter-box {
-      max-width: 620px;
-      margin: 0 auto 56px;
-      text-align: center;
+    .footer-grid {
+      display: grid;
+      grid-template-columns: auto 1.25fr 0.85fr;
+      gap: 36px;
+      align-items: center;
+      padding-bottom: 34px;
+      border-bottom: 1px solid var(--glass-border);
     }
 
-    .newsletter-box h2 {
-      font-size: 2.6rem;
-      margin-bottom: 10px;
+    .newsletter-col h3 {
+      font-size: 1.85rem;
+      margin-bottom: 6px;
     }
 
-    .newsletter-box p {
-      color: var(--text-muted-light);
-      margin-bottom: 24px;
+    .newsletter-col p {
+      font-size: 0.86rem;
+      color: var(--text-muted-dark);
+      margin-bottom: 14px;
     }
 
-    .newsletter-form {
+    .sub-form {
       display: flex;
-      gap: 10px;
-      background: rgba(9, 19, 15, 0.85);
-      border: 1px solid rgba(246, 242, 233, 0.25);
-      padding: 6px;
+      gap: 8px;
+      background: rgba(9, 24, 19, 0.72);
+      border: 1px solid var(--glass-border);
+      padding: 5px;
       border-radius: var(--radius-pill);
     }
 
-    .newsletter-form input {
+    .sub-form input {
       flex: 1;
       background: transparent;
       border: none;
-      padding: 12px 18px;
-      color: var(--text-light);
-      font-size: 0.92rem;
+      padding: 10px 16px;
+      color: var(--ivory);
+      font-size: 0.88rem;
       outline: none;
     }
 
-    .footer-main {
-      border-top: 1px solid var(--border-light);
-      padding-top: 38px;
+    .footer-right-note {
+      text-align: right;
+    }
+
+    .footer-right-note .serif {
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--gold-bright);
+      margin-bottom: 10px;
+    }
+
+    .social-row {
+      display: inline-flex;
+      gap: 10px;
+    }
+
+    .social-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(242, 235, 221, 0.25);
+      display: grid;
+      place-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--ivory);
+      transition: 0.22s;
+    }
+
+    .social-circle:hover {
+      background: var(--gold-warm);
+      color: var(--forest-deep);
+      border-color: var(--gold-warm);
+    }
+
+    .footer-base {
+      padding-top: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 24px;
+      gap: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted-dark);
     }
 
-    .footer-links {
+    .footer-nav {
       display: flex;
-      gap: 28px;
-      font-size: 0.9rem;
-      color: var(--text-muted-light);
+      gap: 20px;
     }
 
-    .footer-links a:hover {
-      color: var(--gold);
+    .footer-nav a:hover {
+      color: var(--gold-bright);
     }
 
-    .footer-bottom {
-      margin-top: 28px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--text-muted-light);
-    }
-
-    /* Order Drawer / Modal */
-    .cart-drawer {
+    /* Order Drawer */
+    .drawer {
       position: fixed;
       top: 0;
-      right: -400px;
-      width: min(380px, 92vw);
+      right: -410px;
+      width: min(390px, 92vw);
       height: 100vh;
-      background: var(--bg-cream);
-      color: var(--text-dark);
-      box-shadow: -15px 0 40px rgba(0,0,0,0.3);
-      z-index: 300;
+      background: var(--cream-soft);
+      color: var(--text-on-light);
+      z-index: 400;
       padding: 24px;
       display: flex;
       flex-direction: column;
-      transition: right 0.3s ease;
+      box-shadow: -18px 0 45px rgba(0, 0, 0, 0.35);
+      transition: right 0.32s ease;
     }
 
-    .cart-drawer.open {
+    .drawer.open {
       right: 0;
     }
 
@@ -797,26 +1006,26 @@
       justify-content: space-between;
       align-items: center;
       padding-bottom: 14px;
-      border-bottom: 1px solid var(--border-dark);
+      border-bottom: 1px solid var(--light-border);
     }
 
-    .cart-items {
+    .drawer-list {
       flex: 1;
       overflow-y: auto;
       padding: 16px 0;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .cart-item {
+    .drawer-row {
+      background: #fff;
+      border: 1px solid var(--light-border);
+      border-radius: 12px;
+      padding: 12px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #fff;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--border-dark);
     }
 
     .toast {
@@ -824,13 +1033,13 @@
       bottom: 22px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
-      background: var(--bg-darker);
-      color: var(--text-light);
-      border: 1px solid var(--gold);
+      background: var(--forest-deep);
+      color: var(--ivory);
+      border: 1px solid var(--gold-warm);
       padding: 12px 22px;
       border-radius: var(--radius-pill);
-      font-size: 0.88rem;
-      z-index: 400;
+      font-size: 0.86rem;
+      z-index: 500;
       transition: transform 0.3s ease;
     }
 
@@ -838,37 +1047,44 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    @media (max-width: 980px) {
-      .hero-grid, .about-grid, .visit-reviews-grid {
+    @media (max-width: 1024px) {
+      .hero-layout, .about-split, .split-info, .footer-grid {
         grid-template-columns: 1fr;
       }
-      .signatures-grid, .cards-grid {
+      .hero-glass-panel {
+        justify-self: start;
+        max-width: 100%;
+      }
+      .footer-right-note {
+        text-align: left;
+      }
+      .sig-row, .menu-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+    }
+
+    @media (max-width: 640px) {
       nav ul {
         display: none;
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
-        background: var(--bg-darker);
+        background: var(--forest-deep);
         flex-direction: column;
         padding: 20px;
-        border-bottom: 1px solid var(--border-light);
+        border-bottom: 1px solid var(--glass-border);
       }
       nav ul.open {
         display: flex;
       }
-      .mobile-toggle {
-        display: block;
+      .mobile-btn {
+        display: inline-block;
       }
-    }
-
-    @media (max-width: 560px) {
-      .signatures-grid, .cards-grid, .pillars-grid {
+      .sig-row, .menu-grid, .feature-pills {
         grid-template-columns: 1fr;
       }
-      .newsletter-form {
+      .sub-form {
         flex-direction: column;
         border-radius: var(--radius-md);
       }
@@ -877,28 +1093,37 @@
 </head>
 <body>
 
+  <!-- Opening Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-emblem">
+      <img src="logo.png" alt="The Citrus Café Emblem" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <span class="logo-fallback">THE<br>CITRUS<br>CAFÉ</span>
+    </div>
+    <span style="font-size:0.75rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-bright);">Yerevan Botanical Lounge</span>
+  </div>
+
   <!-- Top Info Bar -->
   <div class="top-bar">
     <div class="container">
-      <div class="top-bar-items">
+      <div class="top-bar-group">
         <span>📍 Tumanyan St 24, Yerevan</span>
         <span>📞 +374 (10) 55-44-33</span>
-        <span>🕒 Daily: 08:30 – 23:00</span>
+        <span>🕒 Daily 08:30 – 23:00</span>
       </div>
       <div>Prices in AMD (֏)</div>
     </div>
   </div>
 
-  <!-- Navigation -->
+  <!-- Header -->
   <header>
-    <div class="container nav-wrap">
-      <a href="#home" class="brand">
-        <div class="brand-badge">THE<br>CITRUS<br>CAFÉ</div>
-        <span class="brand-name">The Citrus Café</span>
+    <div class="container nav-inner">
+      <a href="#home" class="logo-link" aria-label="The Citrus Café">
+        <img src="logo.png" alt="The Citrus Café Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <span class="logo-fallback">THE<br>CITRUS<br>CAFÉ</span>
       </a>
 
       <nav>
-        <ul id="navMenu">
+        <ul id="navList">
           <li><a href="#home" class="active" data-i18n="nav_home">Home</a></li>
           <li><a href="#menu" data-i18n="nav_menu">Menu</a></li>
           <li><a href="#about" data-i18n="nav_about">About Us</a></li>
@@ -908,201 +1133,235 @@
         </ul>
       </nav>
 
-      <div class="nav-actions">
-        <div class="lang-switch">
+      <div class="header-controls">
+        <div class="lang-box">
           <button class="lang-btn" data-lang="hy">HY</button>
           <button class="lang-btn" data-lang="ru">RU</button>
           <button class="lang-btn active" data-lang="en">EN</button>
         </div>
-        <button class="btn btn-gold" id="openCartBtn">
+        <button class="btn btn-gold" id="cartOpenBtn">
           <span data-i18n="order_online">Order online</span> (<span id="cartCount">0</span>)
         </button>
-        <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">☰</button>
+        <button class="mobile-btn" id="mobileMenuBtn" aria-label="Toggle Menu">☰</button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Full-Size Hero with Video + Emerald Transition -->
   <section class="hero" id="home">
-    <div class="container hero-grid">
-      <div>
-        <span class="eyebrow">SPECIALTY COFFEE · BOTANICAL LOUNGE</span>
-        <h1 data-i18n="hero_title">Crafted in a citrus garden</h1>
-        <p data-i18n="hero_subtitle">
-          Թարմ բոված սուրճ, ցիտրուսային ըմպելիքներ և ձեռագործ աղանդեր ջերմոցի լույսի ներքո:
-        </p>
-        <div class="hero-cta">
-          <a href="#menu" class="btn btn-gold" data-i18n="explore_menu">Explore menu</a>
-          <a href="#about" class="btn btn-outline-light">▶ <span data-i18n="watch_cafe">Watch the café</span></a>
-        </div>
-      </div>
-
-      <div class="hero-media">
-        <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=1200&q=80" alt="The Citrus Café Conservatory Interior">
-        <div class="hero-media-badge">
-          <span class="pulse-dot"></span>
-          <span>Botanical Conservatory · Yerevan</span>
-        </div>
-      </div>
+    <div class="hero-video-bg">
+      <video id="heroVideo" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=1600&q=80">
+        <source src="hero.mp4" type="video/mp4">
+      </video>
     </div>
-  </section>
+    <div class="hero-scrim"></div>
 
-  <!-- Special Menu / Signatures -->
-  <section class="special-menu-strip">
-    <div class="container">
-      <div class="strip-header">
+    <div class="container hero-content">
+      <div class="hero-layout">
         <div>
-          <span class="eyebrow" style="margin-bottom:4px;">SPECIAL MENU</span>
-          <h2 data-i18n="our_signatures">Our signatures</h2>
-        </div>
-        <a href="#menu" class="view-link" data-i18n="view_full_menu">View full menu →</a>
-      </div>
+          <div class="hero-kicker gsap-hero">✦ SPECIALTY COFFEE · BOTANICAL LOUNGE</div>
+          <h1 class="gsap-hero" data-i18n="hero_title">Crafted in a citrus garden</h1>
+          <p class="hero-lead gsap-hero" data-i18n="hero_subtitle">
+            Թարմ բոված սուրճ, ցիտրուսային ըմպելիքներ և ձեռագործ աղանդեր ջերմոցի լույսի ներքո:
+          </p>
 
-      <div class="signatures-grid">
-        <div class="sig-card">
-          <div>
-            <div class="sig-name">Citrus Cloud</div>
-            <div class="sig-sub">Espresso · Orange foam</div>
+          <div class="hero-actions gsap-hero">
+            <a href="#menu" class="btn btn-gold" data-i18n="explore_menu">Explore menu</a>
+            <a href="#about" class="btn btn-glass">▶ <span data-i18n="watch_cafe">Watch the café</span></a>
           </div>
-          <div class="sig-price">2 200 ֏<span>Signature</span></div>
+
+          <div class="hero-live-banner gsap-hero">
+            <span class="live-badge">Botanica</span>
+            <div class="hero-banner-text" id="heroBannerTicker">
+              Morning citrus roast & warm orange-blossom pastries fresh from the conservatory.
+            </div>
+          </div>
         </div>
-        <div class="sig-card">
-          <div>
-            <div class="sig-name">Amber Tonic</div>
-            <div class="sig-sub">Cold brew · Blood orange</div>
+
+        <div class="hero-glass-panel gsap-hero">
+          <div class="panel-top">
+            <span>GREENHOUSE ATMOSPHERE</span>
+            <button class="sound-btn" id="toggleVideoSound">🔇 Unmute</button>
           </div>
-          <div class="sig-price">2 400 ֏<span>Refreshing</span></div>
-        </div>
-        <div class="sig-card">
-          <div>
-            <div class="sig-name">Botanica Fizz</div>
-            <div class="sig-sub">Yuzu · Rosemary · Soda</div>
+          <p style="font-size:0.9rem;color:var(--ivory);margin-bottom:12px;">
+            Sunlit glass conservatory, living citrus trees, and slow-poured specialty drinks in central Yerevan.
+          </p>
+          <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--gold-bright);border-top:1px solid var(--glass-border);padding-top:10px;">
+            <span>● Open Conservatory</span>
+            <span>Yerevan, Armenia</span>
           </div>
-          <div class="sig-price">2 000 ֏<span>Zero-proof</span></div>
-        </div>
-        <div class="sig-card">
-          <div>
-            <div class="sig-name">Orange Velvet Cheesecake</div>
-            <div class="sig-sub">Handmade · Sicilian zest</div>
-          </div>
-          <div class="sig-price">2 800 ֏<span>Dessert</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Marquee -->
-  <div class="ticker">
-    <div class="ticker-track">
-      BOTANICA PLANT SHOP &nbsp;✦&nbsp; FRESH ROASTED COFFEE &nbsp;✦&nbsp; CITRUS GARDEN &nbsp;✦&nbsp; HANDMADE PASTRIES &nbsp;✦&nbsp; SPECIALTY BREWS &nbsp;✦&nbsp;
-      BOTANICA PLANT SHOP &nbsp;✦&nbsp; FRESH ROASTED COFFEE &nbsp;✦&nbsp; CITRUS GARDEN &nbsp;✦&nbsp; HANDMADE PASTRIES &nbsp;✦&nbsp; SPECIALTY BREWS &nbsp;✦&nbsp;
-    </div>
-  </div>
+  <!-- Special Menu Signatures -->
+  <section class="signatures-band">
+    <div class="container">
+      <div class="band-head">
+        <div>
+          <span class="eyebrow gsap-reveal">SPECIAL MENU</span>
+          <h2 class="gsap-reveal" data-i18n="our_signatures">Our signatures</h2>
+        </div>
+        <a href="#menu" class="gold-link gsap-reveal" data-i18n="view_full_menu">View full menu →</a>
+      </div>
 
-  <!-- About Section -->
+      <div class="sig-row">
+        <div class="sig-tile gsap-sig">
+          <div>
+            <div class="sig-title">Citrus Cloud</div>
+            <div class="sig-desc">Double espresso & airy sweet orange crema</div>
+          </div>
+          <div class="sig-price-tag">2 200 ֏</div>
+        </div>
+        <div class="sig-tile gsap-sig">
+          <div>
+            <div class="sig-title">Amber Tonic</div>
+            <div class="sig-desc">Cold brew, tonic & caramelized blood orange</div>
+          </div>
+          <div class="sig-price-tag">2 400 ֏</div>
+        </div>
+        <div class="sig-tile gsap-sig">
+          <div>
+            <div class="sig-title">Botanica Fizz</div>
+            <div class="sig-desc">Botanical yuzu, rosemary & crisp sparkling water</div>
+          </div>
+          <div class="sig-price-tag">2 000 ֏</div>
+        </div>
+        <div class="sig-tile gsap-sig">
+          <div>
+            <div class="sig-title">Orange Velvet Cheesecake</div>
+            <div class="sig-desc">Silky baked cheesecake with citrus zest</div>
+          </div>
+          <div class="sig-price-tag">2 800 ֏</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Curved / Wavy Marquee Strip -->
+    <div class="wave-marquee-wrap" style="margin-top:42px;padding-bottom:0;">
+      <div class="wave-marquee-inner">
+        <svg class="wave-svg-bg" viewBox="0 0 1440 80" preserveAspectRatio="none">
+          <path id="marqueeCurve" d="M0,45 Q360,10 720,45 T1440,45" fill="none" stroke="rgba(226,190,121,0.38)" stroke-width="1.5" />
+        </svg>
+        <div class="wave-track-box">
+          <div class="wave-track">
+            BOTANICA PLANT SHOP ✦ FRESH ROASTED COFFEE ✦ CITRUS GARDEN ✦ HANDMADE DESSERTS ✦ SPECIALTY LOUNGE ✦ &nbsp;
+            BOTANICA PLANT SHOP ✦ FRESH ROASTED COFFEE ✦ CITRUS GARDEN ✦ HANDMADE DESSERTS ✦ SPECIALTY LOUNGE ✦ &nbsp;
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us with Interior Motion & Pop-in -->
   <section class="section" id="about">
-    <div class="container about-grid">
-      <div class="about-image-wrap">
-        <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1000&q=80" alt="Citrus Trees Inside Café">
+    <div class="container about-split">
+      <div class="interior-stage gsap-interior">
+        <img
+          class="interior-photo"
+          src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80"
+          alt="The Citrus Café Interior Conservatory"
+        >
+        <div class="interior-popup" id="interiorPopup">
+          <div class="interior-popup-tag">✦ Conservatory Interior</div>
+          <p>Golden afternoon light filtering through citrus leaves onto warm stone & timber.</p>
+        </div>
       </div>
 
-      <div class="about-content">
-        <span class="eyebrow">ABOUT US</span>
-        <h2 data-i18n="about_title">A citrus greenhouse in the heart of Yerevan</h2>
-        <p data-i18n="about_desc">
-          Armenia's first concept café and plant shop. Sip a signature drink among lemon and orange trees, then take a little piece of the garden home with Botanica. Every cup is roasted in small batches and paired with seasonal botanicals.
+      <div class="about-copy">
+        <span class="eyebrow gsap-reveal">ABOUT US</span>
+        <h2 class="gsap-reveal" data-i18n="about_title">A citrus greenhouse in the heart of Yerevan</h2>
+        <p class="gsap-reveal" data-i18n="about_desc">
+          Armenia's first concept café and plant shop. Sip a signature drink among lemon and orange trees, then take a little piece of the garden home with Botanica.
         </p>
 
-        <div class="pillars-grid">
-          <div class="pillar">
-            <h4>🌱 Premium Beans</h4>
-            <p>Sourced globally & roasted fresh</p>
+        <div class="feature-pills">
+          <div class="feature-pill gsap-card">
+            <strong>Premium Beans</strong>
+            <span>Sourced globally</span>
           </div>
-          <div class="pillar">
-            <h4>☕ Expert Baristas</h4>
-            <p>Crafted with precision & care</p>
+          <div class="feature-pill gsap-card">
+            <strong>Expert Baristas</strong>
+            <span>Crafted with care</span>
           </div>
-          <div class="pillar">
-            <h4>🍊 Fresh Ingredients</h4>
-            <p>Quality & zest in every bite</p>
+          <div class="feature-pill gsap-card">
+            <strong>Fresh Ingredients</strong>
+            <span>Quality in every bite</span>
           </div>
         </div>
 
-        <a href="#location" class="btn btn-dark" data-i18n="find_us">Find us</a>
+        <a href="#location" class="btn btn-gold gsap-reveal" data-i18n="find_us">Find us</a>
       </div>
     </div>
   </section>
 
-  <!-- Guest Favourites & Full Menu -->
-  <section class="section favourites-section" id="menu">
+  <!-- Guest Favourites / Menu -->
+  <section class="section menu-band" id="menu">
     <div class="container">
-      <div class="section-head">
+      <div class="band-head">
         <div>
-          <span class="eyebrow">GUEST FAVOURITES</span>
-          <h2 data-i18n="best_sellers">Our best sellers</h2>
+          <span class="eyebrow gsap-reveal">GUEST FAVOURITES</span>
+          <h2 class="gsap-reveal" data-i18n="best_sellers">Our best sellers</h2>
         </div>
 
-        <div class="filter-tabs">
-          <button class="filter-tab active" data-filter="all">All</button>
-          <button class="filter-tab" data-filter="coffee">Coffee</button>
-          <button class="filter-tab" data-filter="citrus">Citrus Drinks</button>
-          <button class="filter-tab" data-filter="bakery">Bakery & Brunch</button>
+        <div class="filter-bar">
+          <button class="filter-chip active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="coffee">Coffee</button>
+          <button class="filter-chip" data-filter="citrus">Citrus</button>
+          <button class="filter-chip" data-filter="bakery">Bakery & Brunch</button>
         </div>
       </div>
 
-      <div class="cards-grid" id="menuGrid">
-        <!-- Butter & Zest Croissant -->
-        <div class="food-card" data-category="bakery">
-          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80" alt="Butter & Zest Croissant">
-          <div class="food-body">
-            <span class="food-tag">Bakery</span>
-            <h3 class="food-title">Butter & Zest Croissant</h3>
-            <p class="food-desc">Flaky French butter pastry topped with candied orange peel and citrus glaze.</p>
-            <div class="food-footer">
-              <span class="food-price">1 600 ֏</span>
-              <button class="add-btn" onclick="addToCart('Butter & Zest Croissant', 1600)">+ Add</button>
+      <div class="menu-grid">
+        <div class="dish-card gsap-card" data-category="bakery">
+          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=900&q=80" alt="Butter & Zest Croissant">
+          <div class="dish-body">
+            <span class="dish-cat">Bakery</span>
+            <h3 class="dish-name">Butter & Zest Croissant</h3>
+            <p class="dish-copy">Crisp layered pastry finished with fragrant orange zest and light citrus glaze.</p>
+            <div class="dish-bottom">
+              <span class="dish-price">1 600 ֏</span>
+              <button class="add-pill" onclick="addItem('Butter & Zest Croissant', 1600)">+ Add</button>
             </div>
           </div>
         </div>
 
-        <!-- Avocado Toast -->
-        <div class="food-card" data-category="bakery">
-          <img src="https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=800&q=80" alt="Avocado Toast">
-          <div class="food-body">
-            <span class="food-tag">All-Day Brunch</span>
-            <h3 class="food-title">Avocado Toast</h3>
-            <p class="food-desc">Artisan sourdough, smashed avocado, poached organic egg, cherry tomatoes & lemon oil.</p>
-            <div class="food-footer">
-              <span class="food-price">3 400 ֏</span>
-              <button class="add-btn" onclick="addToCart('Avocado Toast', 3400)">+ Add</button>
+        <div class="dish-card gsap-card" data-category="bakery">
+          <img src="https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=900&q=80" alt="Avocado Toast">
+          <div class="dish-body">
+            <span class="dish-cat">Brunch</span>
+            <h3 class="dish-name">Avocado Toast</h3>
+            <p class="dish-copy">Sourdough toast, creamy avocado, poached egg, heirloom tomatoes & lemon oil.</p>
+            <div class="dish-bottom">
+              <span class="dish-price">3 400 ֏</span>
+              <button class="add-pill" onclick="addItem('Avocado Toast', 3400)">+ Add</button>
             </div>
           </div>
         </div>
 
-        <!-- Sunburst Lemonade -->
-        <div class="food-card" data-category="citrus">
-          <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80" alt="Sunburst Lemonade">
-          <div class="food-body">
-            <span class="food-tag">Citrus Bar</span>
-            <h3 class="food-title">Sunburst Lemonade</h3>
-            <p class="food-desc">Freshly squeezed Meyer lemon, sweet mandarin juice, garden mint & sparkling water.</p>
-            <div class="food-footer">
-              <span class="food-price">1 900 ֏</span>
-              <button class="add-btn" onclick="addToCart('Sunburst Lemonade', 1900)">+ Add</button>
+        <div class="dish-card gsap-card" data-category="citrus">
+          <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=80" alt="Sunburst Lemonade">
+          <div class="dish-body">
+            <span class="dish-cat">Citrus Bar</span>
+            <h3 class="dish-name">Sunburst Lemonade</h3>
+            <p class="dish-copy">Pressed lemon & mandarin citrus, fresh garden mint and sparkling water.</p>
+            <div class="dish-bottom">
+              <span class="dish-price">1 900 ֏</span>
+              <button class="add-pill" onclick="addItem('Sunburst Lemonade', 1900)">+ Add</button>
             </div>
           </div>
         </div>
 
-        <!-- Caffé Latte -->
-        <div class="food-card" data-category="coffee">
-          <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=800&q=80" alt="Caffé Latte">
-          <div class="food-body">
-            <span class="food-tag">Specialty Coffee</span>
-            <h3 class="food-title">Caffé Latte</h3>
-            <p class="food-desc">Double shot Ethiopian & Brazilian blend with velvety micro-foamed milk and subtle orange blossom.</p>
-            <div class="food-footer">
-              <span class="food-price">1 800 ֏</span>
-              <button class="add-btn" onclick="addToCart('Caffé Latte', 1800)">+ Add</button>
+        <div class="dish-card gsap-card" data-category="coffee">
+          <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=900&q=80" alt="Caffé Latte">
+          <div class="dish-body">
+            <span class="dish-cat">Specialty Coffee</span>
+            <h3 class="dish-name">Caffé Latte</h3>
+            <p class="dish-copy">Velvety micro-foam milk poured over freshly roasted specialty espresso.</p>
+            <div class="dish-bottom">
+              <span class="dish-price">1 800 ֏</span>
+              <button class="add-pill" onclick="addItem('Caffé Latte', 1800)">+ Add</button>
             </div>
           </div>
         </div>
@@ -1112,166 +1371,145 @@
 
   <!-- Visit Us & Guest Reviews -->
   <section class="section" id="location">
-    <div class="container visit-reviews-grid">
-      <div class="visit-card">
+    <div class="container split-info">
+      <div class="card-light gsap-card">
         <span class="eyebrow">VISIT US</span>
         <h2>Find The Citrus Café</h2>
-        <ul class="info-list">
-          <li><strong>Address:</strong> Tumanyan St 24, Yerevan, Armenia</li>
+        <ul class="meta-rows">
+          <li><strong>Address:</strong> Tumanyan St 24, Yerevan</li>
           <li><strong>Hours:</strong> Mon–Sun, 08:30 – 23:00</li>
           <li><strong>Phone:</strong> +374 (10) 55-44-33</li>
         </ul>
         <a href="https://maps.google.com/?q=Tumanyan+Street+Yerevan" target="_blank" rel="noopener" class="btn btn-gold">Get directions</a>
 
         <iframe
-          class="map-frame"
-          title="The Citrus Café Yerevan Map"
+          class="map-box"
+          title="The Citrus Café Location Map"
           loading="lazy"
           src="https://www.openstreetmap.org/export/embed.html?bbox=44.508%2C40.178%2C44.522%2C40.186&amp;layer=mapnik&amp;marker=40.182%2C44.515">
         </iframe>
       </div>
 
-      <div class="reviews-card" id="events">
-        <div>
-          <span class="eyebrow">GUEST REVIEWS</span>
-          <h2>A Space to Relax & Connect</h2>
-          <p style="color: var(--text-muted-light); font-size:0.95rem;">
-            What our guests say about our greenhouse sanctuary and weekly plant-care meetups.
-          </p>
+      <div class="card-emerald gsap-card" id="events">
+        <span class="eyebrow">GUEST REVIEWS</span>
+        <h2>A Space to Relax & Connect</h2>
+        <p style="color:var(--text-muted-dark);font-size:0.94rem;">
+          What our guests say about our greenhouse sanctuary and plant-care gatherings.
+        </p>
 
-          <div class="review-box">
-            <div class="stars">★★★★★</div>
-            <p class="review-quote">
-              “Walking in feels like stepping into a sunlit Mediterranean orangery right in the center of Yerevan. The Citrus Cloud espresso is unmatched.”
-            </p>
-            <div class="review-author">— Ani Hakobyan, Yerevan</div>
-          </div>
+        <div class="quote-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote-text">“A serene botanical escape in Yerevan with standout citrus espresso and warm hospitality.”</p>
+          <div class="quote-by">Ani M. — Guest</div>
+        </div>
 
-          <div class="review-box">
-            <div class="stars">★★★★★</div>
-            <p class="review-quote">
-              “Best brunch spot in town! Amazing avocado toast, calming greenery, and I even bought a mini calamondin tree from their Botanica corner.”
-            </p>
-            <div class="review-author">— David Petrosyan, Architect</div>
-          </div>
+        <div class="quote-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote-text">“Lush green conservatory, flaky pastries, and rare citrus plants to take home.”</p>
+          <div class="quote-by">Armen K. — Regular</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Newsletter & Footer -->
-  <footer class="newsletter-banner" id="contact">
+  <!-- Clean, Balanced Luxury Footer -->
+  <footer class="site-footer" id="contact">
     <div class="container">
-      <div class="newsletter-box">
-        <span class="eyebrow">BE THE FIRST TO KNOW</span>
-        <h2>Stay in the loop</h2>
-        <p>New seasonal menus, events and plant-care meetups. Leave your email and we will keep you posted.</p>
+      <div class="footer-grid">
+        <a href="#home" class="logo-link" aria-label="The Citrus Café">
+          <img src="logo.png" alt="The Citrus Café Emblem" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <span class="logo-fallback">THE<br>CITRUS<br>CAFÉ</span>
+        </a>
 
-        <form class="newsletter-form" id="newsletterForm">
-          <input type="email" id="emailInput" placeholder="Enter your email address" required />
-          <button type="submit" class="btn btn-gold">Subscribe</button>
-        </form>
-      </div>
-
-      <div class="footer-main">
-        <div class="brand">
-          <div class="brand-badge">THE<br>CITRUS<br>CAFÉ</div>
-          <span class="brand-name">The Citrus Café</span>
+        <div class="newsletter-col">
+          <span class="eyebrow" style="margin-bottom:4px;">STAY IN THE LOOP</span>
+          <h3>Seasonal menus & botanical notes</h3>
+          <p>New seasonal menus, events and plant-care meetups.</p>
+          <form class="sub-form" id="subForm">
+            <input type="email" id="subEmail" placeholder="Your email address" required />
+            <button type="submit" class="btn btn-gold">Subscribe</button>
+          </form>
         </div>
 
-        <div class="footer-links">
+        <div class="footer-right-note">
+          <div class="serif">Sun, citrus & slow mornings.</div>
+          <div class="social-row">
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="social-circle">IG</a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener" class="social-circle">TT</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-base">
+        <div>© 2026 The Citrus Café · Prices in AMD · Ask staff about allergens</div>
+        <div class="footer-nav">
           <a href="#about">About Us</a>
           <a href="#contact">Contacts</a>
-          <a href="#privacy" onclick="showToast('Privacy Policy: We respect your inbox.'); return false;">Privacy Policy</a>
-          <a href="#terms" onclick="showToast('Terms & Conditions — All prices in AMD.'); return false;">Terms</a>
+          <a href="#privacy" onclick="notify('Privacy Policy: Your email is used only for café updates.'); return false;">Privacy Policy</a>
+          <a href="#terms" onclick="notify('Terms: All menu prices are shown in AMD.'); return false;">Terms</a>
         </div>
-      </div>
-
-      <div class="footer-bottom">
-        © 2026 The Citrus Café · <a href="https://instagram.com" target="_blank" style="color:var(--gold);">Instagram</a> · <a href="https://tiktok.com" target="_blank" style="color:var(--gold);">TikTok</a> · Prices in AMD · Ask staff about allergens
       </div>
     </div>
   </footer>
 
-  <!-- Slide-out Cart Drawer -->
-  <aside class="cart-drawer" id="cartDrawer">
+  <!-- Cart Drawer -->
+  <aside class="drawer" id="cartDrawer">
     <div class="drawer-head">
       <h3 style="font-size:1.5rem;">Your Order</h3>
-      <button id="closeCartBtn" style="background:none;border:none;font-size:1.4rem;cursor:pointer;">✕</button>
+      <button id="cartCloseBtn" style="background:none;border:none;font-size:1.3rem;cursor:pointer;">✕</button>
     </div>
-    <div class="cart-items" id="cartItems">
-      <p style="color:var(--text-muted-dark);font-size:0.9rem;">Your basket is empty.</p>
+    <div class="drawer-list" id="cartList">
+      <p style="color:var(--text-muted-light);font-size:0.9rem;">No items selected yet.</p>
     </div>
-    <div style="border-top:1px solid var(--border-dark);padding-top:14px;">
+    <div style="border-top:1px solid var(--light-border);padding-top:14px;">
       <div style="display:flex;justify-content:space-between;font-weight:700;margin-bottom:14px;">
-        <span>Total:</span>
+        <span>Total</span>
         <span id="cartTotal">0 ֏</span>
       </div>
-      <button class="btn btn-gold" style="width:100%;" onclick="checkoutOrder()">Place Pickup Order</button>
+      <button class="btn btn-gold" style="width:100%;" onclick="submitOrder()">Send Order</button>
     </div>
   </aside>
 
   <div class="toast" id="toast"></div>
 
   <script>
-    // Multilingual Dictionary (HY / RU / EN)
-    const translations = {
+    // Translations (HY / RU / EN)
+    const i18n = {
       en: {
-        nav_home: "Home",
-        nav_menu: "Menu",
-        nav_about: "About Us",
-        nav_location: "Location",
-        nav_events: "Events",
-        nav_contact: "Contact",
+        nav_home: "Home", nav_menu: "Menu", nav_about: "About Us",
+        nav_location: "Location", nav_events: "Events", nav_contact: "Contact",
         order_online: "Order online",
         hero_title: "Crafted in a citrus garden",
         hero_subtitle: "Թարմ բոված սուրճ, ցիտրուսային ըմպելիքներ և ձեռագործ աղանդեր ջերմոցի լույսի ներքո:",
-        explore_menu: "Explore menu",
-        watch_cafe: "Watch the café",
-        our_signatures: "Our signatures",
-        view_full_menu: "View full menu →",
+        explore_menu: "Explore menu", watch_cafe: "Watch the café",
+        our_signatures: "Our signatures", view_full_menu: "View full menu →",
         about_title: "A citrus greenhouse in the heart of Yerevan",
         about_desc: "Armenia's first concept café and plant shop. Sip a signature drink among lemon and orange trees, then take a little piece of the garden home with Botanica.",
-        find_us: "Find us",
-        best_sellers: "Our best sellers"
+        find_us: "Find us", best_sellers: "Our best sellers"
       },
       hy: {
-        nav_home: "Գլխավոր",
-        nav_menu: "Մենյու",
-        nav_about: "Մեր մասին",
-        nav_location: "Հասցե",
-        nav_events: "Միջոցառումներ",
-        nav_contact: "Կապ",
+        nav_home: "Գլխավոր", nav_menu: "Մենյու", nav_about: "Մեր մասին",
+        nav_location: "Հասցե", nav_events: "Միջոցառումներ", nav_contact: "Կապ",
         order_online: "Պատվիրել օնլայն",
         hero_title: "Ստեղծված ցիտրուսային այգում",
         hero_subtitle: "Թարմ բոված սուրճ, ցիտրուսային ըմպելիքներ և ձեռագործ աղանդեր ջերմոցի լույսի ներքո:",
-        explore_menu: "Տեսնել մենյուն",
-        watch_cafe: "Դիտել սրճարանը",
-        our_signatures: "Մեր հատուկ առաջարկները",
-        view_full_menu: "Ամբողջ մենյուն →",
+        explore_menu: "Տեսնել մենյուն", watch_cafe: "Դիտել սրճարանը",
+        our_signatures: "Մեր հատուկ առաջարկները", view_full_menu: "Ամբողջ մենյուն →",
         about_title: "Ցիտրուսային ջերմոց Երևանի սրտում",
         about_desc: "Հայաստանի առաջին կոնցեպտ սրճարանն ու բույսերի խանութը։ Վայելեք ըմպելիքները կիտրոնի և նարնջի ծառերի ներքո և տարեք այգու մի մասնիկը Ձեզ հետ։",
-        find_us: "Գտնել մեզ",
-        best_sellers: "Ամենասիրվածները"
+        find_us: "Գտնել մեզ", best_sellers: "Ամենասիրվածները"
       },
       ru: {
-        nav_home: "Главная",
-        nav_menu: "Меню",
-        nav_about: "О нас",
-        nav_location: "Локация",
-        nav_events: "События",
-        nav_contact: "Контакты",
+        nav_home: "Главная", nav_menu: "Меню", nav_about: "О нас",
+        nav_location: "Локация", nav_events: "События", nav_contact: "Контакты",
         order_online: "Заказать онлайн",
         hero_title: "Создано в цитрусовом саду",
         hero_subtitle: "Свежеобжаренный кофе, цитрусовые напитки и авторские десерты под светом оранжереи.",
-        explore_menu: "Открыть меню",
-        watch_cafe: "Обзор кафе",
-        our_signatures: "Наши хиты",
-        view_full_menu: "Всё меню →",
+        explore_menu: "Открыть меню", watch_cafe: "Обзор кафе",
+        our_signatures: "Наши хиты", view_full_menu: "Всё меню →",
         about_title: "Цитрусовая оранжерея в сердце Еревана",
         about_desc: "Первое концепт-кафе и магазин растений в Армении. Насладитесь авторским кофе среди лимонных и апельсиновых деревьев.",
-        find_us: "Найти нас",
-        best_sellers: "Выбор гостей"
+        find_us: "Найти нас", best_sellers: "Выбор гостей"
       }
     };
 
@@ -1282,97 +1520,225 @@
         const lang = btn.dataset.lang;
         document.querySelectorAll('[data-i18n]').forEach(el => {
           const key = el.dataset.i18n;
-          if (translations[lang][key]) {
-            el.textContent = translations[lang][key];
-          }
+          if (i18n[lang][key]) el.textContent = i18n[lang][key];
         });
       });
     });
 
-    // Mobile Menu
-    const mobileToggle = document.getElementById('mobileToggle');
-    const navMenu = document.getElementById('navMenu');
-    mobileToggle.addEventListener('click', () => navMenu.classList.toggle('open'));
+    // Mobile nav toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navList = document.getElementById('navList');
+    mobileMenuBtn.addEventListener('click', () => navList.classList.toggle('open'));
 
-    // Menu Category Filtering
-    document.querySelectorAll('.filter-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const filter = tab.dataset.filter;
-        document.querySelectorAll('.food-card').forEach(card => {
+    // Video mute/unmute toggle
+    const heroVideo = document.getElementById('heroVideo');
+    const soundBtn = document.getElementById('toggleVideoSound');
+    soundBtn.addEventListener('click', () => {
+      heroVideo.muted = !heroVideo.muted;
+      soundBtn.textContent = heroVideo.muted ? '🔇 Unmute' : '🔊 Mute';
+    });
+
+    // Rotating Hero Banner Messages
+    const bannerMessages = [
+      "Morning citrus roast & warm orange-blossom pastries fresh from the conservatory.",
+      "Weekly Botanica plant-care evenings & single-origin pour-overs in Yerevan.",
+      "Handcrafted yuzu & blood-orange tonics served under natural greenhouse light."
+    ];
+    let msgIndex = 0;
+    const heroBannerTicker = document.getElementById('heroBannerTicker');
+    setInterval(() => {
+      msgIndex = (msgIndex + 1) % bannerMessages.length;
+      if (window.gsap) {
+        gsap.to(heroBannerTicker, {
+          opacity: 0, y: -6, duration: 0.25,
+          onComplete: () => {
+            heroBannerTicker.textContent = bannerMessages[msgIndex];
+            gsap.to(heroBannerTicker, { opacity: 1, y: 0, duration: 0.35 });
+          }
+        });
+      } else {
+        heroBannerTicker.textContent = bannerMessages[msgIndex];
+      }
+    }, 4500);
+
+    // Filter Menu
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const filter = chip.dataset.filter;
+        document.querySelectorAll('.dish-card').forEach(card => {
           card.style.display = (filter === 'all' || card.dataset.category === filter) ? 'flex' : 'none';
         });
       });
     });
 
-    // Cart Logic
-    let cart = [];
+    // Cart State
+    let orderBag = [];
     const cartDrawer = document.getElementById('cartDrawer');
-    document.getElementById('openCartBtn').addEventListener('click', () => cartDrawer.classList.add('open'));
-    document.getElementById('closeCartBtn').addEventListener('click', () => cartDrawer.classList.remove('open'));
+    document.getElementById('cartOpenBtn').addEventListener('click', () => cartDrawer.classList.add('open'));
+    document.getElementById('cartCloseBtn').addEventListener('click', () => cartDrawer.classList.remove('open'));
 
-    function addToCart(name, price) {
-      cart.push({ name, price });
-      renderCart();
-      showToast(`${name} added to order`);
+    function addItem(name, price) {
+      orderBag.push({ name, price });
+      renderBag();
+      notify(`${name} added to order`);
     }
 
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      renderCart();
+    function removeItem(i) {
+      orderBag.splice(i, 1);
+      renderBag();
     }
 
-    function renderCart() {
-      const list = document.getElementById('cartItems');
-      document.getElementById('cartCount').textContent = cart.length;
-      if (cart.length === 0) {
-        list.innerHTML = '<p style="color:var(--text-muted-dark);font-size:0.9rem;">Your basket is empty.</p>';
+    function renderBag() {
+      const list = document.getElementById('cartList');
+      document.getElementById('cartCount').textContent = orderBag.length;
+      if (!orderBag.length) {
+        list.innerHTML = '<p style="color:var(--text-muted-light);font-size:0.9rem;">No items selected yet.</p>';
         document.getElementById('cartTotal').textContent = '0 ֏';
         return;
       }
-      let total = 0;
-      list.innerHTML = cart.map((item, idx) => {
-        total += item.price;
+      let sum = 0;
+      list.innerHTML = orderBag.map((it, idx) => {
+        sum += it.price;
         return `
-          <div class="cart-item">
+          <div class="drawer-row">
             <div>
-              <div style="font-weight:600;font-size:0.9rem;">${item.name}</div>
-              <div style="font-size:0.8rem;color:var(--text-muted-dark);">${item.price.toLocaleString()} ֏</div>
+              <div style="font-weight:600;font-size:0.9rem;">${it.name}</div>
+              <div style="font-size:0.8rem;color:var(--text-muted-light);">${it.price.toLocaleString()} ֏</div>
             </div>
-            <button onclick="removeFromCart(${idx})" style="background:none;border:none;color:#b83b3b;cursor:pointer;font-weight:700;">✕</button>
+            <button onclick="removeItem(${idx})" style="background:none;border:none;color:#b83b3b;font-weight:700;cursor:pointer;">✕</button>
           </div>
         `;
       }).join('');
-      document.getElementById('cartTotal').textContent = `${total.toLocaleString()} ֏`;
+      document.getElementById('cartTotal').textContent = `${sum.toLocaleString()} ֏`;
     }
 
-    function checkoutOrder() {
-      if (cart.length === 0) {
-        showToast('Please add items first');
+    function submitOrder() {
+      if (!orderBag.length) {
+        notify('Add at least one item first');
         return;
       }
-      cart = [];
-      renderCart();
+      orderBag = [];
+      renderBag();
       cartDrawer.classList.remove('open');
-      showToast('Thank you! Your order has been sent to the baristas.');
+      notify('Order received! Preparing at The Citrus Café.');
     }
 
-    // Newsletter Form
-    document.getElementById('newsletterForm').addEventListener('submit', (e) => {
+    // Newsletter
+    document.getElementById('subForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const input = document.getElementById('emailInput');
-      showToast(`Subscribed ${input.value} to The Citrus Café updates!`);
+      const input = document.getElementById('subEmail');
+      notify(`Subscribed ${input.value} — welcome to The Citrus Café!`);
       input.value = '';
     });
 
-    // Toast Notification
-    function showToast(msg) {
+    function notify(msg) {
       const toast = document.getElementById('toast');
       toast.textContent = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3200);
     }
+
+    // GSAP Animations
+    window.addEventListener('DOMContentLoaded', () => {
+      if (!window.gsap) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Opening curtain animation
+      const tl = gsap.timeline();
+      tl.to('.preloader', {
+        yPercent: -100,
+        duration: 0.85,
+        delay: 0.45,
+        ease: 'power3.inOut'
+      })
+      .from('.gsap-hero', {
+        y: 28,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.11,
+        ease: 'power3.out'
+      }, '-=0.35');
+
+      // Gentle ambient motion on hero glass panel
+      gsap.to('.hero-glass-panel', {
+        y: -8,
+        duration: 2.8,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+
+      // Signatures stagger
+      gsap.from('.gsap-sig', {
+        scale: 0.94,
+        y: 26,
+        opacity: 0,
+        duration: 0.65,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.sig-row',
+          start: 'top 84%',
+          once: true
+        }
+      });
+
+      // Interior photo parallax & pop-in card reveal
+      gsap.to('.interior-photo', {
+        scale: 1,
+        yPercent: 6,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.interior-stage',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+
+      gsap.from('#interiorPopup', {
+        y: 36,
+        opacity: 0,
+        scale: 0.96,
+        duration: 0.75,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.interior-stage',
+          start: 'top 72%',
+          once: true
+        }
+      });
+
+      // Section reveals & cards
+      gsap.utils.toArray('.gsap-reveal').forEach(el => {
+        gsap.from(el, {
+          y: 24,
+          opacity: 0,
+          duration: 0.7,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            once: true
+          }
+        });
+      });
+
+      gsap.from('.menu-grid .gsap-card', {
+        y: 28,
+        opacity: 0,
+        duration: 0.65,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.menu-grid',
+          start: 'top 82%',
+          once: true
+        }
+      });
+    });
   </script>
 </body>
 </html>
